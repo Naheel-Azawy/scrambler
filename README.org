@@ -1,0 +1,5 @@
+* text-entropy
+  Increase the entropy of an input text.
+
+** License
+   GPL-3
