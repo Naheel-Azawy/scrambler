@@ -233,7 +233,7 @@ let lang = "";
 let strings = {};
 
 strings["en"] = {
-    title:      "Text Entropy",
+    title:      "ѕсrαмЪlег",
     enter_text: "Enter text",
     out_text:   "Output text",
     cp:         "Copy",
@@ -247,7 +247,7 @@ Please use for good intentions.
 `;
 
 strings["ar"] = {
-    title:      "عشوائية النص",
+    title:      "مــشـــــــﻭش",
     enter_text: "أدخل النص",
     out_text:   "النص الناتج",
     cp:         "نسخ",
