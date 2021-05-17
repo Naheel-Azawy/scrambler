@@ -120,7 +120,7 @@ function randomize(str) {
         case "و": res += r(["و", "ﻭ", "ﻮ"]); break;
         case "ي": res += end ? r(["ي", "ﻱ", "ﻲ"]) : r(["ي", "ﻴ", "ﻳ"]); break;
         case "ة": res += r(["ة", "ﺓ", "ﺔ"]); break;
-        case "ى": res += mid ? r(["ٮ"]) : r(["ى", "ﻯ", "ﻰ", "ۍ"]);  break;
+        case "ى": res += mid || start ? r(["ٮ"]) : r(["ى", "ﻯ", "ﻰ", "ۍ"]);  break;
         case "ٯ": res += "ٯ"; break;
         case "ڡ": res += "ڡ"; break;
         case "ٮ": res += "ٮ"; break;
