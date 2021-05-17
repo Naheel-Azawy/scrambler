@@ -1,4 +1,3 @@
-// TODO: rules for: english, russian, french
 
 function is_ar(c) {
     if (c == undefined) {
@@ -74,11 +73,11 @@ function dotless(str) {
     return res;
 }
 
-function randomize(str) {
-    function r(arr) {
-        return arr[(Math.random() * arr.length) | 0];
-    }
+function r(arr) {
+    return arr[(Math.random() * arr.length) | 0];
+}
 
+function randomize(str) {
     let start, mid, end;
     let res = "";
     for (let i = 0; i < str.length; ++i) {
@@ -150,11 +149,51 @@ function tatweel(str) {
     return res;
 }
 
+function homoglyphs(str) {
+    // https://en.wikipedia.org/wiki/IDN_homograph_attack
+    // https://en.wikipedia.org/wiki/List_of_Unicode_characters
+    str = str.toLowerCase();
+    let res = "";
+    for (let i = 0; i < str.length; ++i) {
+        switch (str[i]) {
+        case "a": res += r(["a", "а", "α"]); break;
+        case "b": res += r(["b", "Ъ", "ƅ"]); break;
+        case "c": res += r(["c", "с", "ϲ"]); break;
+        case "d": res += r(["d", "∂"]); break;
+        case "e": res += r(["e", "е"]); break;
+        case "f": res += r(["f", "ƒ", "Ғ"]); break;
+        case "g": res += r(["g", "ɡ"]); break;
+        case "h": res += r(["h", "ћ"]); break;
+        case "i": res += r(["i", "і", "ι"]); break;
+        case "j": res += r(["j", "ј"]); break;
+        case "k": res += r(["k", "κ"]); break;
+        case "l": res += r(["l", "I", "І"]); break;
+        case "m": res += r(["m", "м"]); break;
+        case "n": res += r(["n", "ո"]); break;
+        case "o": res += r(["o", "о", "ο", "օ"]); break;
+        case "p": res += r(["p", "р", "ρ"]); break;
+        case "q": res += r(["q", "ԛ"]); break;
+        case "r": res += r(["r", "г"]); break;
+        case "s": res += r(["s", "ѕ"]); break;
+        case "t": res += r(["t", "т"]); break;
+        case "u": res += r(["u", "υ", "ս"]); break;
+        case "v": res += r(["v", "ν"]); break;
+        case "w": res += r(["w", "ԝ", "ω"]); break;
+        case "x": res += r(["x", "х"]); break;
+        case "y": res += r(["y", "у"]); break;
+        case "z": res += r(["z", "Ζ", "ƶ"]); break;
+        default:  res += str[i];
+        }
+    }
+    return res;
+}
+
 function process(str) {
     str = remove_tashkeel(str);
     str = tatweel(str);
     str = dotless(str);
     str = randomize(str);
+    str = homoglyphs(str);
     return str;
 }
 
