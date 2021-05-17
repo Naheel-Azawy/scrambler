@@ -228,7 +228,7 @@ function copy(text) {
     });
 }
 
-let lang = "ar";
+let lang = "";
 
 let strings = {};
 
@@ -237,8 +237,14 @@ strings["en"] = {
     enter_text: "Enter text",
     out_text:   "Output text",
     cp:         "Copy",
-    src:        "Source code"
+    src:        "Source code",
 };
+strings["en"].note = `
+The output text includes a randomized characters. <br>
+The characters are replaced with various homograph unicode characters. <br>
+This program is a free software under the GPL-3 license <br>
+Please use for good intentions.
+`;
 
 strings["ar"] = {
     title:      "عشوائية النص",
@@ -247,39 +253,61 @@ strings["ar"] = {
     cp:         "نسخ",
     src:        "كود المصدر"
 };
+strings["ar"].note = `
+النص الناتج يمثل النص المدخل باستخدام أحرف عشوائية مشابهة و غير منقوطة. <br>
+إضافة لذلك، تضاف بعض التطويلات بشكل عشوائي. <br>
+هذا البرنامج برنامج حر تحت رخصة جنو العمومية GPL-3 <br>
+الرجاء الاستخدام لأغراض حسنة
+`;
 
 function _(key) {
     return strings[lang][key];
 }
 
-document.body.appendChild($div([
-    $h1(_("title")), $hr(),
+function ui() {
+    if (!lang && navigator.languages) {
+        lang = navigator.languages.includes("ar") ? "ar" : "en";
+    }
 
-    $div({
-        style: {textAlign: lang == "ar" ? "right" : "left"},
-        dir: lang == "ar" ? "rtl" : "ltr",
-        content: [
-            _("enter_text"), $br(),
-            $textarea({id: "text_in"}),
-            $br(), $br(),
-            _("out_text"), $br(),
-            $textarea({id: "text_out", disabled: true}),
-            $br(), $br(),
-            $button({onclick: () => {
-                copy($get("#text_out").value);
-            }}, _("cp"))
-        ]
-    }),
+    document.title = _("title");
+    document.body.innerHTML = "";
+    document.body.appendChild($div([
+        $h1(_("title")), $hr(),
 
-    $br(),
-    $a({
-        href: "https://github.com/Naheel-Azawy/text-entropy",
-        style: {float: lang == "ar" ? "left" : "right"}
-    }, _("src"))
-]));
+        $button({id: "en", style: {width: "50%"}}, "English"),
+        $button({id: "ar", style: {width: "50%"}}, "عربي"),
+        $br(), $br(),
 
-$get("#text_in").onkeyup = () => {
-    let str = $get("#text_in").value;
-    $get("#text_out").value = process(str);
-};
+        $div({
+            style: {textAlign: lang == "ar" ? "right" : "left"},
+            dir: lang == "ar" ? "rtl" : "ltr",
+            content: [
+                _("enter_text"), $br(),
+                $textarea({id: "text_in"}),
+                $br(), $br(),
+                _("out_text"), $br(),
+                $textarea({id: "text_out", disabled: true}),
+                $br(), $br(),
+                $button({onclick: () => {
+                    copy($get("#text_out").value);
+                }}, _("cp")),
+                $br(), $br(),
+                $span(_("note")),
+            ]
+        }),
 
+        $br(),
+        $a({
+            href: "https://github.com/Naheel-Azawy/text-entropy",
+            style: {float: lang == "ar" ? "left" : "right"}
+        }, _("src"))
+    ]));
+
+    $get("#ar").onclick = () => {lang = "ar"; ui();};
+    $get("#en").onclick = () => {lang = "en"; ui();};
+    $get("#text_in").onkeyup = () => {
+        $get("#text_out").value = process($get("#text_in").value);
+    };
+}
+
+ui();
